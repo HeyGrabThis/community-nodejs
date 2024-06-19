@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs') %>
+    <div class="detail-bg">
+      <h4><%= data.title %></h4>
+      <p><%= data.content %></p>
+      <img src="<%= data.img %>" alt="" />
+    </div>
+    <div class="comment-container">
+      <form action="/comment" method="post">
+        <input
+          type="text"
+          name="comment"
+          class="comment-input"
+          placeholder="댓글을 입력해주세요"
+        />
+        <br />
+        <input
+          type="text"
+          name="writer"
+          class="comment-input"
+          placeholder="작성자를 입력해주세요"
+        />
+        <input
+          type="text"
+          name="doc"
+          class="comment-input-url"
+          value="<%= data._id %>"
+          style="display: none"
+        />
+        <button class="comment-addBtn" type="submit">댓글작성</button>
+      </form>
+      <% comment.map((elm)=>{ %>
+      <div class="comment-list">
+        <h4><%= elm.comment %></h4>
+        <p>작성자 : <%= elm.writer %></p>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>

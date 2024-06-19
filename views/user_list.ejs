@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs') %>
+    <div class="white-bg">
+      <% users.map((elm)=>{ %>
+      <div class="list-box">
+        <h4><%= elm.username %></h4>
+        <a class="edit-btn" href="/chat/<%= elm._id %>">채팅하기</a>
+      </div>
+      <% }) %>
+    </div>
+    <script></script>
+  </body>
+</html>

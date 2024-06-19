@@ -1,0 +1,14 @@
+chatRoom
+{
+createdAt : 만들어진시간
+users : [내 유저 아이디, 상대 유저 아이디]
+}
+
+chat
+{
+chatRoomId : 속한 채팅방 아이디
+createdAt : 보낸 시간
+fromMe : 내가 보냈는지 (boolean값)
+content : 보낸 내용
+}
+

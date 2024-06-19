@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs') %>
+    <input class="search" />
+    <button class="search-send">검색</button>
+    <div class="white-bg">
+      <% posts.map((elm)=>{ %>
+      <div class="list-box">
+        <h4><a href="/detail/<%= elm._id %>"><%= elm.title %></a></h4>
+        <p><%= elm.content %></p>
+        <a class="edit-btn" href="/edit/<%= elm._id %>">수정하기</a>
+        <span class="list-delBtn" data-id="<%= elm._id %>">삭제</span>
+      </div>
+      <% }) %>
+    </div>
+    <a href="/list/next/<%= posts[posts.length-1]._id %>">다음 페이지</a>
+    <script>
+      const listDelBtn = document.querySelectorAll('.list-delBtn');
+      listDelBtn.forEach((elm, idx) => {
+        elm.addEventListener('click', (e) => {
+          fetch('/list/delete?docid=' + e.target.dataset.id, {
+            method: 'DELETE',
+          })
+            .then((res) => res.text())
+            .then((res) => {
+              e.target.parentElement.style.display = 'none';
+            });
+        });
+      });
+      //검색기능
+      const searchBtn = document.querySelector('.search-send');
+      const inputSearch = document.querySelector('.search');
+      const search = () => {
+        //querystring으로 넘기기
+        fetch('/search?title=' + inputSearch.value, {
+          method: 'GET',
+        })
+          .then((res) => res.text())
+          .then((res) => {
+            location.href = '/search?title=' + inputSearch.value;
+          });
+      };
+      searchBtn.addEventListener('click', search);
+    </script>
+  </body>
+</html>

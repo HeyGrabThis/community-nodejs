@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs') %>
+    <div class="white-bg">
+      <% data.map((elm,idx)=>{ %>
+      <div class="list-box">
+        <h4><%= name[idx] %></h4>
+        <p>채팅마지막내용</p>
+        <a class="edit-btn" href="/chat/<%= id[idx] %>">채팅방 입장</a>
+      </div>
+      <% }) %>
+    </div>
+
+    <script></script>
+  </body>
+</html>

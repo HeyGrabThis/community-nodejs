@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body class="grey-bg">
+    <%- include('nav.ejs') %>
+
+    <div class="detail-bg">
+      <div class="chat-screen">
+        <div class="chat-box"><span>안녕하세요</span></div>
+        <div class="chat-box"><span>안녕하세요</span></div>
+        <div class="chat-box mine"><span>안녕하세요</span></div>
+      </div>
+    </div>
+    <div class="chat-form">
+      <input class="chat-input" />
+      <button class="chat-button">전송</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+    <script>
+      const socket = io();
+      //유저 -> 서버로 데이터 보내기 => join하고 싶은 room번호(여기선 참여하는 채팅방 document id)
+      socket.emit('ask-join', '<%= chatRoomId %>');
+
+      //전송버튼 누르면 서버에 요청하기
+      document.querySelector('.chat-button').addEventListener('click', () => {
+        let chatInput = document.querySelector('.chat-input');
+        socket.emit('message', {
+          msg: chatInput.value,
+          room: '<%= chatRoomId %>',
+        });
+        chatInput.value = null;
+      });
+
+      // 서버 -> 유저로 보낸 데이터 수신
+      socket.on('broadcast', (data) => {
+        let msgContainer = document.createElement('div');
+        let msgText = document.createElement('span');
+        msgText.innerHTML = data.msg;
+        document.querySelector('.chat-screen').appendChild(msgContainer);
+        msgContainer.appendChild(msgText);
+        msgContainer.className = 'chat-box';
+        //내가 보낸 메시지라면
+        if (data.id === '<%= userId %>') {
+          msgContainer.className += ' mine';
+        }
+      });
+    </script>
+  </body>
+</html>
